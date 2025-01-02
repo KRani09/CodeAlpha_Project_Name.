@@ -1,0 +1,77 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Destination {
+    String name;
+    String date;
+    String preferences;
+
+    Destination(String name, String date, String preferences) {
+        this.name = name;
+        this.date = date;
+        this.preferences = preferences;
+    }
+
+    @Override
+    public String toString() {
+        return "Destination: " + name + "\nDate: " + date + "\nPreferences: " + preferences;
+    }
+}
+
+public class TravelItineraryPlanner {
+    public static void main(String[] args) {
+        ArrayList<Destination> itinerary = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        double budget = 0;
+
+        System.out.println("Welcome to the Travel Itinerary Planner!");
+
+        // Input budget
+        System.out.print("Enter your total travel budget: $");
+        try {
+            budget = Double.parseDouble(scanner.nextLine());
+            if (budget <= 0) {
+                System.out.println("Budget must be greater than zero. Exiting.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input. Budget must be a numeric value. Exiting.");
+            return;
+        }
+
+        // Input destinations
+        while (true) {
+            System.out.println("\nAdd a new destination or type 'done' to finish:");
+            System.out.print("Destination name: ");
+            String name = scanner.nextLine();
+            if (name.equalsIgnoreCase("done")) {
+                break;
+            }
+
+            System.out.print("Travel date (e.g., YYYY-MM-DD): ");
+            String date = scanner.nextLine();
+
+            System.out.print("Preferences or notes (e.g., activities, accommodations): ");
+            String preferences = scanner.nextLine();
+
+            itinerary.add(new Destination(name, date, preferences));
+        }
+
+        // Display itinerary
+        if (itinerary.isEmpty()) {
+            System.out.println("No destinations were added. Exiting.");
+        } else {
+            System.out.println("\nYour Travel Itinerary:");
+            for (Destination destination : itinerary) {
+                System.out.println(destination);
+                System.out.println("-------------------");
+            }
+
+            System.out.printf("Total Budget: $%.2f%n", budget);
+
+            System.out.println("\nFeatures like maps, weather information, and detailed budget breakdown are under development.");
+        }
+
+        scanner.close();
+    }
+}
