@@ -1,0 +1,88 @@
+import java.util.Scanner;
+
+public class SimpleBankingApp {
+
+    private double balance;
+
+    public SimpleBankingApp() {
+        this.balance = 0.0;
+    }
+
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            System.out.printf("$%.2f deposited successfully. Current balance: $%.2f%n", amount, balance);
+        } else {
+            System.out.println("Invalid deposit amount. Please enter a positive number.");
+        }
+    }
+
+    public void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            System.out.printf("$%.2f withdrawn successfully. Current balance: $%.2f%n", amount, balance);
+        } else if (amount > balance) {
+            System.out.println("Insufficient balance. Please enter a smaller amount.");
+        } else {
+            System.out.println("Invalid withdrawal amount. Please enter a positive number.");
+        }
+    }
+
+    public void checkBalance() {
+        System.out.printf("Current balance: $%.2f%n", balance);
+    }
+
+    public static void main(String[] args) {
+        SimpleBankingApp account = new SimpleBankingApp();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Welcome to Simple Banking Application!");
+
+        while (true) {
+            System.out.println("\nChoose an operation:");
+            System.out.println("1. Deposit");
+            System.out.println("2. Withdraw");
+            System.out.println("3. Check Balance");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice;
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a number between 1 and 4.");
+                continue;
+            }
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter deposit amount: ");
+                    try {
+                        double depositAmount = Double.parseDouble(scanner.nextLine());
+                        account.deposit(depositAmount);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input. Please enter a numeric value.");
+                    }
+                    break;
+                case 2:
+                    System.out.print("Enter withdrawal amount: ");
+                    try {
+                        double withdrawalAmount = Double.parseDouble(scanner.nextLine());
+                        account.withdraw(withdrawalAmount);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input. Please enter a numeric value.");
+                    }
+                    break;
+                case 3:
+                    account.checkBalance();
+                    break;
+                case 4:
+                    System.out.println("Thank you for using Simple Banking Application. Goodbye!");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please enter a number between 1 and 4.");
+            }
+        }
+    }
+}
